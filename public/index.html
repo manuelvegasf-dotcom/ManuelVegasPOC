@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manuel's Gourmet Menu - POC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Food Menu</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody id="food-table-body">
+           
+        </tbody>
+    </table>
+
+    <script>
+        
+        async function fetchFoods() {
+            try {
+                const response = await fetch('/foods');
+                const foods = await response.json();
+                
+                const tbody = document.getElementById('food-table-body');
+                tbody.innerHTML = ''; 
+
+                foods.forEach(food => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${food.id}</td>
+                        <td>${food.name}</td>
+                        <td>$${food.price}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching foods:', error);
+            }
+        }
+
+        fetchFoods();
+    </script>
+
+</body>
+</html>
